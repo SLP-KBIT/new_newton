@@ -1,0 +1,11 @@
+- title = '物品を削除'
+
+- modal_body = capture do
+  p
+    | 「#{@item.name}」を削除しますか?
+
+- modal_footer = capture do
+  = link_to '削除', item_path( item.id ), class: 'btn btn-danger', remote: true, method: :delete
+  = content_tag :button, 'キャンセル', class: 'btn btn-default', 'data-dismiss' => 'modal'
+
+= modal_dialog id: 'modal-form', header: { show_close: true, dismiss: 'modal', title: title }, body: { content: modal_body }, footer: { content: modal_footer }

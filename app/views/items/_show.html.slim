@@ -1,0 +1,36 @@
+- title = item.name
+
+- modal_body = capture do
+  table.table.table-bordered.table-condensed
+    tbody
+      tr
+        th.active width="125px" 物品名
+        td #{item.name}
+      tr
+        th.active 保管場所
+        td #{item.place}
+      tr
+        th.active カテゴリ
+        td #{item.category_text}(#{item.category})
+      tr
+        th.active 個数
+        td #{item.amount}
+      tr
+        th.active 貸出期間
+        td
+          - if item.lending_period == 0
+            | 無制限
+          - else
+            | #{item.lending_period} 日
+      tr
+        th.active 付属品
+        td
+          - if item.attachments.present?
+            = simple_format item.attachments
+          - else
+            p なし
+
+- modal_footer = capture do
+  = content_tag :button, '閉じる', class: 'btn btn-default', 'data-dismiss' => 'modal'
+
+= modal_dialog id: 'modal-form', header: { show_close: true, dismiss: 'modal', title: title }, body: { content: modal_body }, footer: { content: modal_footer }

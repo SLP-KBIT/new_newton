@@ -20,9 +20,9 @@ ActiveRecord::Schema.define(version: 20140920181139) do
     t.string   "name",           default: "",    null: false
     t.string   "place",          default: "",    null: false
     t.text     "attachments",    default: "",    null: false
-    t.integer  "amount",         default: 0,     null: false
+    t.integer  "amount",                         null: false
     t.integer  "category",       default: 0,     null: false
-    t.integer  "lending_period", default: 0,     null: false
+    t.integer  "lending_period",                 null: false
     t.boolean  "trashed_flag",   default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"

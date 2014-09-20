@@ -1,0 +1,22 @@
+- @title = '物品'
+
+h3.bold
+  = fa_stacked_icon 'archive inverse', base: 'circle', text: @title
+
+.row
+  .col-md-6
+    .row
+      .col-xs-8
+        = form_tag items_path, method: :get do
+          .form-group
+            .input-group
+              = text_field_tag :keyword, params[:keyword], class: 'form-control', placeholder: '物品名で検索…'
+              span.input-group-btn
+                = button_tag type: :submit, class: 'btn btn-default' do
+                  = fa_icon 'search', text: '検索'
+      - if current_user.is_admin?
+        .col-xs-4
+          = link_to new_item_path, class: 'btn btn-primary', remote: true do
+            = fa_icon 'plus', text: '登録'
+
+= render partial: 'items/list', locals: { items: @items }
