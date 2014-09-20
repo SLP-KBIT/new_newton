@@ -1,0 +1,23 @@
+- @title = 'ログイン'
+
+br
+
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title.bold = fa_icon 'sign-in', text: @title
+      .panel-body
+        = form_for resource, as: resource_name, url: session_path( resource_name ) do |f|
+          .form-group
+            .input-group
+              span.input-group-addon = fa_icon 'user fw'
+              = f.text_field :username, autofocus: true, class: 'form-control', placeholder: 'ユーザー名'
+          .form-group
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'パスワード'
+          .form-group
+            = f.submit 'ログイン', class: 'btn btn-info'
+
+br

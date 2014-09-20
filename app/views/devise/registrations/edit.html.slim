@@ -1,0 +1,56 @@
+- @title = 'ユーザー編集'
+
+- unless devise_error_messages!.empty?
+  .alert.alert-danger.alert-dismissable
+    button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
+    = devise_error_messages!
+
+br
+
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title.bold = fa_icon 'pencil', text: @title
+      .panel-body
+        = form_for resource, as: resource_name, url: registration_path( resource_name ) do |f|
+          .form-group class="#{'has-error' if resource.errors.messages[:username]}"
+            .input-group
+              span.input-group-addon = fa_icon 'user fw'
+              = f.text_field :username, autofocus: true, class: 'form-control', placeholder: 'ユーザー名'
+            - unless resource.errors.messages[:username].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:username].each do |message|
+                    li ユーザー名#{message}
+          .form-group class="#{'has-error' if resource.errors.messages[:current_password]}"
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :current_password, autocomplete: 'off', class: 'form-control', placeholder: '現在のパスワード'
+            - unless resource.errors.messages[:current_password].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:current_password].each do |message|
+                    li 現在のパスワード#{message}
+          .form-group class="#{'has-error' if resource.errors.messages[:password]}"
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: '新しいパスワード'
+            - unless resource.errors.messages[:password].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:password].each do |message|
+                    li 新しいパスワード#{message}
+          .form-group class="#{'has-error' if resource.errors.messages[:password_cpnfirmation]}"
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :password_cpnfirmation, autocomplete: 'off', class: 'form-control', placeholder: 'パスワード(確認)'
+            - unless resource.errors.messages[:password_cpnfirmation].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:password_cpnfirmation].each do |message|
+                    li 確認のパスワード#{message}
+          .form-group
+            = f.submit '更新', class: 'btn btn-primary'
+
+br

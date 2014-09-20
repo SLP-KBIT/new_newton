@@ -13,8 +13,8 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  # :registerable, :recoverable, :rememberable, :trackable, :validatable
-  devise :database_authenticatable
+  # :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :validatable
   validates :username, presence: true
   scope :id_is, -> ( id ) { where( id: id ).first }
 
@@ -28,5 +28,13 @@ class User < ActiveRecord::Base
 
   def is_admin?
     admin_flag
+  end
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
   end
 end

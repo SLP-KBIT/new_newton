@@ -1,0 +1,47 @@
+- @title = 'ユーザー登録'
+
+- unless devise_error_messages!.empty?
+  .alert.alert-danger.alert-dismissable
+    button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
+    = devise_error_messages!
+
+br
+
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title.bold = fa_icon 'sign-in', text: @title
+      .panel-body
+        = form_for resource, as: resource_name, url: registration_path( resource_name ) do |f|
+          .form-group class="#{'has-error' if resource.errors.messages[:username]}"
+            .input-group
+              span.input-group-addon = fa_icon 'user fw'
+              = f.text_field :username, autofocus: true, class: 'form-control', placeholder: 'ユーザー名'
+            - unless resource.errors.messages[:username].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:username].each do |message|
+                    li ユーザー名#{message}
+          .form-group class="#{'has-error' if resource.errors.messages[:password]}"
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'パスワード'
+            - unless resource.errors.messages[:password].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:password].each do |message|
+                    li パスワード#{message}
+          .form-group class="#{'has-error' if resource.errors.messages[:password_confirmation]}"
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: 'パスワード (確認)'
+            - unless resource.errors.messages[:password_confirmation].empty?
+              p
+                ul.text-danger
+                  - resource.errors.messages[:password_confirmation].each do |message|
+                    li 確認のパスワード#{message}
+          .form-group
+            = f.submit '登録', class: 'btn btn-primary'
+
+br
