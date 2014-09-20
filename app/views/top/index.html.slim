@@ -1,1 +1,37 @@
-- @title = 'Top'
+- @title = 'ようこそ'
+
+.row
+  .col-md-6
+    h3.bold
+      span.caudex.caudex-700 νNewton
+      | &nbsp;へようこそ
+    p.wide-line
+      | 『
+      span.caudex.caudex-400 νNewton
+      | &nbsp;』は、研究室やサークルにおける物品管理を目的としたシステムです。
+      br
+      = link_to 'https://github.com/SLP-KBIT/newton', target: :_blank do
+        span.caudex.caudex-400 Newton
+      | &nbsp;の改良版として、新機能の追加やインターフェイスの刷新を行いました。
+      br
+      | 現在、SLP(学生プログラミング研究所)で開発・試験運用中です。
+    = link_to new_user_registration_path, class: 'btn btn-primary'
+      = fa_icon 'user', text: 'ユーザー登録はこちら'
+
+  .col-md-6
+    br
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title.bold = fa_icon 'sign-in', text: 'ログイン'
+      .panel-body
+        = form_for :user, url: { controller: 'devise/sessions', action: 'new' } do |f|
+          .form-group
+            .input-group
+              span.input-group-addon = fa_icon 'user fw'
+              = f.text_field :username, autofocus: true, class: 'form-control', placeholder: 'ユーザー名'
+          .form-group
+            .input-group
+              span.input-group-addon = fa_icon 'lock fw'
+              = f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'パスワード'
+          .form-group
+            = f.submit 'ログイン', class: 'btn btn-info'
