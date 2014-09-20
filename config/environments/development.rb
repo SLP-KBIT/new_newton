@@ -35,5 +35,6 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  Slim::Engine.set_default_options pretty: true, sort_attrs: false
   BetterErrors::Middleware.allow_ip! '133.92.147.0/24'
 end
