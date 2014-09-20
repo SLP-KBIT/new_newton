@@ -29,7 +29,7 @@ html
             - if current_user
               li.dropdown
                 a.dropdown-toggle href="#" data-toggle="dropdown"
-                  = fa_icon 'user', text: current_user.email.match( /\A(.+)@/ )[1]
+                  = fa_icon 'user', text: current_user.username
                   | &nbsp;
                   b.caret
                 ul.dropdown-menu
