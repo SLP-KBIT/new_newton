@@ -23,6 +23,12 @@
           - else
             | #{item.lending_period} 日
       tr
+        th.active 登録日時
+        td #{I18n.l item.created_at, format: :short}
+      tr
+        th.active 更新日時
+        td #{I18n.l item.updated_at, format: :short}
+      tr
         th.active 付属品
         td
           - if item.attachments.present?
