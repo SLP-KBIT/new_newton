@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   validates :username, presence: true
   validates :username, uniqueness: true, if: -> { self.username.present? }
   scope :id_is, -> ( id ) { where( id: id ).first }
+  scope :lending, -> { lends.where( returned_flag: false ) }
+  has_many :lends
 
   def self.search( keyword )
     if keyword
