@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   # :recoverable, :rememberable, :trackable, :validatable
   devise :database_authenticatable, :registerable, :validatable
   validates :username, presence: true
+  validates :username, uniqueness: true, if: -> { self.username.present? }
   scope :id_is, -> ( id ) { where( id: id ).first }
 
   def self.search( keyword )
