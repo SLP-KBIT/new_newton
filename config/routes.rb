@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root to: 'top#index'
+  get 'rank' => 'top#rank', as: :rank
 
   devise_for :users
   resources :users, only: %w( show )

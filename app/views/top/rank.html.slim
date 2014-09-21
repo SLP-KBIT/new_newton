@@ -1,0 +1,6 @@
+- @title = 'ランキング'
+
+h3.bold
+  = fa_stacked_icon 'flag inverse', base: 'circle', text: @title
+
+= render partial: 'items/rank', locals: { items: @items }
