@@ -25,7 +25,7 @@
                   | #{I18n.l loan_period, format: :short}
     = hidden_field_tag 'return_ids'
     = button_tag id: 'return_submit', class: 'btn btn-primary', disabled: true do
-      = fa_icon 'shopping-cart', text: '返却'
+      = fa_icon 'undo', text: '返却'
   = paginate lends
 
 br
