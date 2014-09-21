@@ -37,6 +37,10 @@ class User < ActiveRecord::Base
     lends.where( returned_flag: false )
   end
 
+  def returned
+    lends.where( returned_flag: true )
+  end
+
   def email_required?
     false
   end
