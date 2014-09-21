@@ -1,8 +1,8 @@
-- title = '物品を削除'
+- title = '物品を破棄'
 
 - modal_body = capture do
   p
-    | 「#{@item.name}」を削除しますか?
+    | 「#{@item.name}」を破棄しますか?
 
 - modal_footer = capture do
   = link_to '削除', item_path( item.id ), class: 'btn btn-danger', remote: true, method: :delete

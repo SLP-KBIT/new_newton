@@ -1,0 +1,20 @@
+- title = '物品を貸出'
+- button_caption = '貸出'
+
+= form_tag lends_path, method: :post do |f|
+  - modal_body = capture do
+    table.table.table-bordered
+      tbody
+        - items.each do |item|
+          tr
+            th.active.middle #{item.name}
+            td width="150px"
+              .form-group.no-margin
+                - left = item.amount - item.lent.sum( :amount )
+                = select :lend_items, item.id, (1..left).to_a, {}, { class: 'form-control' }
+
+  - modal_footer = capture do
+    = button_tag button_caption, class: 'btn btn-primary'
+    = content_tag :button, 'キャンセル', class: 'btn btn-default', 'data-dismiss' => 'modal'
+
+  = modal_dialog id: 'modal-form', header: { show_close: true, dismiss: 'modal', title: title }, body: { content: modal_body }, footer: { content: modal_footer }

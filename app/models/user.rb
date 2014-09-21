@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     admin_flag
   end
 
+  def lending
+    lends.where( returned_flag: false )
+  end
+
   def email_required?
     false
   end

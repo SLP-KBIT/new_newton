@@ -13,25 +13,25 @@
     .form-group#item-name
       .input-group
         span.input-group-addon = fa_icon 'archive fw'
-        = f.text_field :name, autofocus: true, class: 'form-control', placeholder: '物品名'
+        = f.text_field :name, class: 'form-control', placeholder: '物品名'
       .input-error#item-name-error
 
     .form-group#item-place
       .input-group
         span.input-group-addon = fa_icon 'map-marker fw'
-        = f.text_field :place, autofocus: true, class: 'form-control', placeholder: '保管場所'
+        = f.text_field :place, class: 'form-control', placeholder: '保管場所'
       .input-error#item-place-error
 
     .form-group#item-amount
       .input-group
         span.input-group-addon = fa_icon 'files-o fw'
-        = f.text_field :amount, autofocus: true, class: 'form-control', placeholder: '個数'
+        = f.text_field :amount, class: 'form-control', placeholder: '個数'
       .input-error#item-amount-error
 
     .form-group#item-lending_period
       .input-group
         span.input-group-addon = fa_icon 'calendar fw'
-        = f.text_field :lending_period, autofocus: true, class: 'form-control', placeholder: '貸出期間(0は無期限)'
+        = f.text_field :lending_period, class: 'form-control', placeholder: '貸出期間(0は無期限)'
         span.input-group-btn
           button.btn.btn-default disabled="true" 日
       .input-error#item-lending_period-error

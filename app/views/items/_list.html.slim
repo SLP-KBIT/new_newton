@@ -1,32 +1,64 @@
 - if items.empty?
   .alert.alert-warning 登録されている物品はありません。
 - else
-  .table-responsive
-    table.table.table-bordered.table-hover.table-striped
-      thead
-        - if current_user.is_admin?
-          th.center style="width: 125px;"
-        th.center 物品名
-        th.center style="width: 125px;" 保管場所
-        th.center style="width: 125px;" カテゴリ
-        th.center style="width: 125px;" 個数
-        th.center style="width: 125px;" 貸出期間
-      tbody
-        - items.each do |item|
-          tr
-            - if current_user.is_admin?
-              td.center
-                = link_to edit_item_path( item.id ), class: 'btn btn-success btn-xs', remote: true do
-                  = fa_icon 'pencil', text: '編集'
-                | &nbsp;
-                = link_to delete_item_path( item.id ), class: 'btn btn-danger btn-xs', remote: true do
-                  = fa_icon 'trash-o', text: '削除'
-            td = link_to item.name, item_path( item.id ), remote: true
-            td #{item.place}
-            td #{item.category_text}
-            td.right #{item.amount}
-            - if item.lending_period == 0
-              td.center 無制限
-            - else
-              td.right #{item.lending_period} 日
+  = form_tag new_lend_path, remote: true do
+    .table-responsive
+      table.table.table-bordered.table-hover.table-striped
+        thead
+          - if current_user.is_admin?
+            th.center width="125px"
+          th.center width="75px" 貸出
+          th.center 物品名
+          th.center width="125px" 保管場所
+          th.center width="125px" カテゴリ
+          th.center width="125px" 個数
+          th.center width="125px" 貸出期間
+        tbody
+          - items.each do |item|
+            tr
+              - left = item.amount - item.lent.sum( :amount )
+              - if current_user.is_admin?
+                td.center
+                  = link_to edit_item_path( item.id ), class: 'btn btn-success btn-xs', remote: true do
+                    = fa_icon 'pencil', text: '編集'
+                  | &nbsp;
+                  = link_to delete_item_path( item.id ), class: 'btn btn-danger btn-xs', remote: true do
+                    = fa_icon 'trash-o', text: '破棄'
+              td.center = check_box_tag "item_ids[]", item.id, false, { disabled: left <= 0 }
+              td = link_to item.name, item_path( item.id ), remote: true
+              td #{item.place}
+              td #{item.category_text}
+              td.right #{sprintf '%02d', left} / #{sprintf '%02d', item.amount}
+              - if item.lending_period == 0
+                td.center 無制限
+              - else
+                td.right #{item.lending_period} 日
+    = hidden_field_tag 'lend_ids'
+    = button_tag id: 'lend_submit', class: 'btn btn-primary', disabled: true do
+      = fa_icon 'shopping-cart', text: '貸出'
   = paginate items
+
+br
+
+coffee:
+  window.lend_tmp = [] unless window.lend_tmp
+  if window.lend_tmp.length > 0
+    $( '#lend_submit' ).attr 'disabled', false
+    $( '#lend_ids' ).val( window.lend_tmp.join ',' )
+    for id in window.lend_tmp
+      $( '[name="item_ids[]"]' ).each ->
+        if $( this ).val() is id
+          $( this ).prop( 'checked', true )
+  $( '[name="item_ids[]"]' ).on 'click', ->
+    $( '[name="item_ids[]"]:checked' ).each ->
+      if $.inArray( $( this ).val(), window.lend_tmp ) < 0
+        window.lend_tmp.push $( this ).val()
+    $( '[name="item_ids[]"]:not( :checked )' ).each ->
+      pos = $.inArray( $( this ).val(), window.lend_tmp )
+      window.lend_tmp.splice pos, 1 if pos >= 0
+    $( '#lend_ids' ).val( window.lend_tmp.join ',' )
+    if window.lend_tmp.length > 0
+      $( '#lend_submit' ).attr 'disabled', false
+    else
+      $( '#lend_submit' ).attr 'disabled', true
+    console.log window.lend_tmp

@@ -19,7 +19,6 @@ class Item < ActiveRecord::Base
   validates :amount, :lending_period, numericality: { only_integer: true }
   default_scope -> { where( trashed_flag: false ) }
   scope :id_is, -> ( id ) { where( id: id ).first }
-  scope :lent, -> { lends.where( returned_flag: false ) }
   has_many :lends
 
   include Category
@@ -30,5 +29,9 @@ class Item < ActiveRecord::Base
     else
       Item.all
     end
+  end
+
+  def lent
+    lends.where( returned_flag: false )
   end
 end
