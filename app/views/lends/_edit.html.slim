@@ -1,17 +1,16 @@
-- title = '物品を貸出'
-- button_caption = '貸出'
+- title = '物品を返却'
+- button_caption = '返却'
 
-= form_tag new_lends_path, method: :post do |f|
+= form_tag lends_path, method: :patch do |f|
   - modal_body = capture do
     table.table.table-bordered
       tbody
-        - items.each do |item|
+        - lends.each do |lend|
           tr
-            th.active.middle #{item.name}
+            th.active.middle #{lend.item.name}
             td width="150px"
               .form-group.no-margin
-                - left = item.amount - item.lent.sum( :amount )
-                = select :lend_items, item.id, (1..left).to_a, {}, { class: 'form-control' }
+                = select :return_items, lend.id, Status::selection, {}, { class: 'form-control' }
 
   - modal_footer = capture do
     = button_tag button_caption, class: 'btn btn-primary'

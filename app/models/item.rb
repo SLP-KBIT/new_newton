@@ -20,6 +20,7 @@ class Item < ActiveRecord::Base
   default_scope -> { where( trashed_flag: false ) }
   scope :id_is, -> ( id ) { where( id: id ).first }
   has_many :lends
+  has_many :users, through: :lends
 
   include Category
 

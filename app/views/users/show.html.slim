@@ -1,0 +1,6 @@
+- @title = '借物リスト'
+
+h3.bold
+  = fa_stacked_icon 'shopping-cart inverse', base: 'circle', text: @title
+
+= render partial: 'lends/list', locals: { lends: @lends }

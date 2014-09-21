@@ -26,6 +26,8 @@ html
         .collapse.navbar-collapse id="bs-example-navbar-collapse-1"
           ul.nav.navbar-nav
             - if current_user
+              li = link_to user_path( current_user.id ) do
+                = fa_icon 'shopping-cart', text: '借物'
               li = link_to items_path do
                 = fa_icon 'archive', text: '物品'
           ul.nav.navbar-nav.navbar-right

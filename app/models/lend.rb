@@ -13,7 +13,7 @@
 #
 
 class Lend < ActiveRecord::Base
-  validates :amount, presence: true, numericality: { only_integer: true }
+  scope :id_is, -> ( id ) { where( id: id ).first }
   belongs_to :user
   belongs_to :item
 
