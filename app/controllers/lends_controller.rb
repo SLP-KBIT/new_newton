@@ -22,13 +22,16 @@ class LendsController < ApplicationController
   end
 
   def edit
-    @lends = Lend.where( id: params[:return_ids].split( ',' ) )
+    @lends = Lend.where id: params[:return_ids].split( ',' )
     render :show_modal, locals: { type: :edit }
   end
 
   def update
     params[:return_items].each do |id, status|
-      @result = Lend.id_is( id ).update( returned_flag: true, status: status.to_i )
+      @lend = Lend.id_is( id )
+      @result = @lend.update returned_flag: true, status: status.to_i
+      break unless @result
+      @result = @lend.item.update amount: @lend.item.amount - @lend.amount if @lend.status > 0
       break unless @result
     end
     flash[:notice] = "#{params[:return_items].size}個の物品を返却しました。" if @result
