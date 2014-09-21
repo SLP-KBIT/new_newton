@@ -1,7 +1,7 @@
 - title = '物品を貸出'
 - button_caption = '貸出'
 
-= form_tag new_lends_path, method: :post do |f|
+= form_tag lends_path, method: :post do |f|
   - modal_body = capture do
     table.table.table-bordered
       tbody

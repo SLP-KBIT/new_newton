@@ -8,6 +8,7 @@
           th.center width="75px" 返却
           th.center 物品名
           th.center width="75px" 個数
+          th.center width="125px" 貸出日
           th.center width="125px" 返却期限
         tbody
           - lends.each do |lend|
@@ -15,6 +16,7 @@
               td.center = check_box_tag "lend_ids[]", lend.id, false, {}
               td = link_to lend.item.name, item_path( lend.item_id ), remote: true
               td.right #{sprintf '%02d', lend.amount}
+              td.center #{I18n.l lend.created_at, format: :short}
               td.center
                 - if lend.item.lending_period == 0
                   | 無期限
