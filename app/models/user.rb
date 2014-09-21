@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true, if: -> { self.username.present? }
   scope :id_is, -> ( id ) { where( id: id ).first }
   has_many :lends
-  has_many :items, through: :lends
+  has_many :reserves
 
   def self.search( keyword )
     if keyword
@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
 
   def returned
     lends.where( returned_flag: true )
+  end
+
+  def reserving
+    reserves.where( lent_flag: false )
   end
 
   def email_required?
