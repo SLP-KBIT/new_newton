@@ -1,0 +1,6 @@
+- @title = '履歴リスト'
+
+h3.bold
+  = fa_stacked_icon 'clock-o inverse', base: 'circle', text: @title
+
+= render partial: 'history/list', locals: { lends: @lends }

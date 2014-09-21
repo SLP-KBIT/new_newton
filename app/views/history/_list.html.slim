@@ -1,0 +1,24 @@
+- if lends.empty?
+  .alert.alert-warning 履歴はありません。
+- else
+  .table-responsive
+    table.table.table-bordered.table-hover.table-striped
+      thead
+        th.center 物品名
+        th.center width="75px" 個数
+        th.center width="75px" 状態
+        th.center width="125px" 貸出日
+        th.center width="125px" 返却日
+      tbody
+        - lends.each do |lend|
+          tr
+            td = link_to lend.item.name, item_path( lend.item_id ), remote: true
+            td.right #{sprintf '%02d', lend.amount}
+            td.center
+              - if lend.returned_flag
+                | #{Status::TEXT[lend.status]}
+            td.center #{I18n.l lend.created_at, format: :short}
+            td.center
+              - if lend.returned_flag
+                | #{I18n.l lend.updated_at, format: :short}
+  = paginate lends

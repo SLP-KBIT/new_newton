@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   patch 'lends'      => 'lends#update'
   post  'lends/new'  => 'lends#new'   , as: :new_lend
   post  'lends/edit' => 'lends#edit'  , as: :edit_lend
+
+  get 'history/:id' => 'history#show', as: :history
 end
