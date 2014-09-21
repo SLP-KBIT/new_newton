@@ -12,16 +12,17 @@
           th.center width="125px" 返却期限
         tbody
           - lends.each do |lend|
+            - loan_period = lend.created_at + lend.item.lending_period.days
             tr
               td.center = check_box_tag "lend_ids[]", lend.id, false, {}
               td = link_to lend.item.name, item_path( lend.item_id ), remote: true
               td.right #{sprintf '%02d', lend.amount}
               td.center #{I18n.l lend.created_at, format: :short}
-              td.center
+              td.center class="#{'danger' if Time.now > loan_period and lend.item.lending_period != 0}"
                 - if lend.item.lending_period == 0
                   | 無期限
                 - else
-                  | #{I18n.l lend.created_at + lend.item.lending_period.days, format: :short}
+                  | #{I18n.l loan_period, format: :short}
     = hidden_field_tag 'return_ids'
     = button_tag id: 'return_submit', class: 'btn btn-primary', disabled: true do
       = fa_icon 'shopping-cart', text: '返却'
