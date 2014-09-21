@@ -1,0 +1,55 @@
+- if reserves.empty?
+  .alert.alert-warning 予約中の物品はありません。
+- else
+  = form_tag edit_reserve_path, method: :post, remote: true do
+    .table-responsive
+      table.table.table-bordered.table-hover.table-striped
+        thead
+          th.center width="75px" 貸出
+          th.center width="75px" 取消
+          th.center 物品名
+          th.center width="75px" 個数
+          th.center width="125px" 予約日
+        tbody
+          - reserves.each do |reserve|
+            tr
+              - left = reserve.item.amount - reserve.item.lent.sum( :amount )
+              td.center
+                - if left >= reserve.amount
+                  = check_box_tag "reserve_ids[]", reserve.id, false, {}
+                - else
+                  = button_tag class: 'btn btn-default btn-xs', disabled: true do
+                    = fa_icon 'undo', text: '待機'
+              td.center = link_to delete_reserve_path( reserve.id ), class: 'btn btn-danger btn-xs', remote: true do
+                = fa_icon 'times', text: '取消'
+              td = link_to reserve.item.name, item_path( reserve.item_id ), remote: true
+              td.right #{sprintf '%02d', reserve.amount} / #{sprintf '%02d', reserve.item.amount}
+              td.center #{I18n.l reserve.created_at, format: :short}
+    = hidden_field_tag 'lend_ids'
+    = button_tag id: 'lend_submit', class: 'btn btn-primary', disabled: true do
+      = fa_icon 'shopping-cart', text: '貸出'
+  = paginate reserves
+
+br
+
+coffee:
+  window.lend_tmp = [] unless window.lend_tmp
+  if window.lend_tmp.length > 0
+    $( '#lend_submit' ).attr 'disabled', false
+    $( '#lend_ids' ).val( window.lend_tmp.join ',' )
+    for id in window.lend_tmp
+      $( '[name="reserve_ids[]"]' ).each ->
+        if $( this ).val() is id
+          $( this ).prop( 'checked', true )
+  $( '[name="reserve_ids[]"]' ).on 'click', ->
+    $( '[name="reserve_ids[]"]:checked' ).each ->
+      if $.inArray( $( this ).val(), window.lend_tmp ) < 0
+        window.lend_tmp.push $( this ).val()
+    $( '[name="reserve_ids[]"]:not( :checked )' ).each ->
+      pos = $.inArray( $( this ).val(), window.lend_tmp )
+      window.lend_tmp.splice pos, 1 if pos >= 0
+    $( '#lend_ids' ).val( window.lend_tmp.join ',' )
+    if window.lend_tmp.length > 0
+      $( '#lend_submit' ).attr 'disabled', false
+    else
+      $( '#lend_submit' ).attr 'disabled', true

@@ -1,0 +1,19 @@
+- title = '物品を貸出'
+- button_caption = '貸出'
+
+= form_tag reserves_path, method: :patch do |f|
+  - modal_body = capture do
+    table.table.table-bordered
+      tbody
+        - reserves.each do |reserve|
+          tr
+            th.active.middle #{reserve.item.name}
+            td width="150px"
+              .form-group.no-margin
+                = select :lend_items, reserve.id, (1..reserve.amount).to_a, {}, { class: 'form-control' }
+
+  - modal_footer = capture do
+    = button_tag button_caption, class: 'btn btn-primary'
+    = content_tag :button, 'キャンセル', class: 'btn btn-default', 'data-dismiss' => 'modal'
+
+  = modal_dialog id: 'modal-form', header: { show_close: true, dismiss: 'modal', title: title }, body: { content: modal_body }, footer: { content: modal_footer }

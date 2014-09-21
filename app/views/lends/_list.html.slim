@@ -1,5 +1,5 @@
 - if lends.empty?
-  .alert.alert-warning 借りている物品はありません。
+  .alert.alert-warning 貸出中の物品はありません。
 - else
   = form_tag edit_lend_path, method: :post, remote: true do
     .table-responsive

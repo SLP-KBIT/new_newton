@@ -7,6 +7,7 @@
         th.center 物品名
         th.center width="75px" 個数
         th.center width="75px" 状態
+        th.center width="125px" 予約日
         th.center width="125px" 貸出日
         th.center width="125px" 返却日
       tbody
@@ -17,6 +18,9 @@
             td.center
               - if lend.returned_flag
                 | #{Status::TEXT[lend.status]}
+            td.center
+              - if lend.reserve_id > 0
+                | #{I18n.l lend.reserve.created_at, format: :short}
             td.center #{I18n.l lend.created_at, format: :short}
             td.center
               - if lend.returned_flag

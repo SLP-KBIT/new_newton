@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140921040826) do
+ActiveRecord::Schema.define(version: 20140921055441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,12 @@ ActiveRecord::Schema.define(version: 20140921040826) do
     t.boolean  "returned_flag", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "reserve_id",    default: 0,     null: false
   end
+
+  add_index "lends", ["item_id"], name: "index_lends_on_item_id", using: :btree
+  add_index "lends", ["reserve_id"], name: "index_lends_on_reserve_id", using: :btree
+  add_index "lends", ["user_id"], name: "index_lends_on_user_id", using: :btree
 
   create_table "reserves", force: true do |t|
     t.integer  "user_id",    default: 0,     null: false
@@ -46,6 +51,9 @@ ActiveRecord::Schema.define(version: 20140921040826) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "reserves", ["item_id"], name: "index_reserves_on_item_id", using: :btree
+  add_index "reserves", ["user_id"], name: "index_reserves_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username",           default: "",    null: false

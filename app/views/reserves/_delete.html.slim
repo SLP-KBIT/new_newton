@@ -1,11 +1,11 @@
-- title = '物品を破棄'
+- title = '予約を取消'
 
 - modal_body = capture do
   p
-    | 「#{@item.name}」を破棄しますか?
+    | 「#{@reserve.item.name}」の予約を取消しますか?
 
 - modal_footer = capture do
-  = link_to '削除', item_path( item.id ), class: 'btn btn-danger', method: :delete
+  = link_to '取消', reserve_path( reserve.id ), class: 'btn btn-danger', method: :delete
   = content_tag :button, 'キャンセル', class: 'btn btn-default', 'data-dismiss' => 'modal'
 
 = modal_dialog id: 'modal-form', header: { show_close: true, dismiss: 'modal', title: title }, body: { content: modal_body }, footer: { content: modal_footer }

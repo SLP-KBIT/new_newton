@@ -1,6 +1,13 @@
 class LendsController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+    unless current_user.is_admin? and current_user.id == params[:id].to_i
+      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+    end
+    @lends = User.id_is( params[:id] ).lending.order( updated_at: :asc ).page( params[:page] ).per( 20 )
+  end
+
   def new
     @items = Item.where( id: params[:lend_ids].split( ',' ) )
     render :show_modal, locals: { type: :new }
@@ -13,7 +20,7 @@ class LendsController < ApplicationController
     @result = current_user.save
     if @result
       flash[:notice] = "#{params[:lend_items].size}個の物品を貸出しました。"
-      redirect_to user_path( current_user.id )
+      redirect_to lend_path( current_user.id )
       return
     else
       flash[:alert] = "物品の貸出に失敗しました。" unless @result
@@ -36,6 +43,6 @@ class LendsController < ApplicationController
     end
     flash[:notice] = "#{params[:return_items].size}個の物品を返却しました。" if @result
     flash[:alert] = "物品の返却に失敗しました。" unless @result
-    redirect_to user_path( current_user.id )
+    redirect_to lend_path( current_user.id )
   end
 end

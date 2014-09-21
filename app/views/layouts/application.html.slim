@@ -30,8 +30,10 @@ html
                 = fa_icon 'flag', text: 'ランキング'
               li = link_to items_path do
                 = fa_icon 'archive', text: '物品'
-              li = link_to user_path( current_user.id ) do
+              li = link_to lend_path( current_user.id ) do
                 = fa_icon 'shopping-cart', text: '借物'
+              li = link_to reserve_path( current_user.id ) do
+                = fa_icon 'check', text: '予約'
               li = link_to history_path( current_user.id ) do
                 = fa_icon 'clock-o', text: '履歴'
           ul.nav.navbar-nav.navbar-right

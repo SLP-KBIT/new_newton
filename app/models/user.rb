@@ -17,9 +17,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :validatable
   validates :username, presence: true
   validates :username, uniqueness: true, if: -> { self.username.present? }
-  scope :id_is, -> ( id ) { where( id: id ).first }
   has_many :lends
   has_many :reserves
+
+  def self.id_is( id )
+    User.where( id: id.to_i ).first
+  end
 
   def self.search( keyword )
     if keyword

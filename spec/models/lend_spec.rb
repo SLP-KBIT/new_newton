@@ -10,6 +10,7 @@
 #  returned_flag :boolean          default(FALSE), not null
 #  created_at    :datetime
 #  updated_at    :datetime
+#  reserve_id    :integer          default(0), not null
 #
 
 require 'rails_helper'

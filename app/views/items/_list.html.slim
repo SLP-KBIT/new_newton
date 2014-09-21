@@ -24,7 +24,18 @@
                   | &nbsp;
                   = link_to delete_item_path( item.id ), class: 'btn btn-danger btn-xs', remote: true do
                     = fa_icon 'trash-o', text: '破棄'
-              td.center = check_box_tag "item_ids[]", item.id, false, { disabled: left <= 0 }
+              td.center
+                - if current_user.reserving.where( item_id: item.id ).first
+                  = link_to reserve_path( current_user.id ), class: 'btn btn-warning btn-xs' do
+                    = fa_icon 'check', text: '完了'
+                - elsif left <= 0 && item.amount > 0
+                  = link_to new_reserve_path( item.id ), class: 'btn btn-warning btn-xs', remote: true, method: :post do
+                    = fa_icon 'check', text: '予約'
+                - elsif left > 0
+                  = check_box_tag "item_ids[]", item.id, false, {}
+                - else
+                  = button_tag class: 'btn btn-default btn-xs', disabled: true do
+                    = fa_icon 'times', text: '中止'
               td = link_to item.name, item_path( item.id ), remote: true
               td #{item.place}
               td #{item.category_text}

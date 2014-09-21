@@ -1,0 +1,6 @@
+- @title = '予約リスト'
+
+h3.bold
+  = fa_stacked_icon 'check inverse', base: 'circle', text: @title
+
+= render partial: 'reserves/list', locals: { reserves: @reserves }

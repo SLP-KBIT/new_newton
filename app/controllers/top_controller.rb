@@ -1,6 +1,6 @@
 class TopController < ApplicationController
   def index
-    redirect_to user_path( current_user.id ) if current_user
+    redirect_to lend_path( current_user.id ) if current_user
   end
 
   def rank

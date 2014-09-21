@@ -12,7 +12,11 @@
 #
 
 class Reserve < ActiveRecord::Base
-  scope :id_is, -> ( id ) { where( id: id ).first }
   belongs_to :user
   belongs_to :item
+  has_one :lend
+
+  def self.id_is( id )
+    Reserve.where( id: id.to_i ).first
+  end
 end

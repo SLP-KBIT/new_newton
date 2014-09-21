@@ -18,11 +18,14 @@ class Item < ActiveRecord::Base
   validates :name, :place, :amount, :category, :lending_period, presence: true
   validates :amount, :lending_period, numericality: { only_integer: true }
   default_scope -> { where( trashed_flag: false ) }
-  scope :id_is, -> ( id ) { where( id: id ).first }
   has_many :lends
   has_many :reserves
 
   include Category
+
+  def self.id_is( id )
+    Item.where( id: id.to_i ).first
+  end
 
   def self.search( keyword )
     if keyword
